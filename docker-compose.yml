@@ -1,0 +1,58 @@
+services:
+  postgres:
+    image: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: kazi
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    networks:
+      - backend
+
+  employee-service:
+    build:
+      context: .
+      dockerfile: src/EmployeeService/Dockerfile
+    depends_on:
+      - postgres
+    networks:
+      - backend
+    ports:
+      - '7002:80'
+      - '7777:7777'
+
+  attendance-service:
+    build:
+      context: .
+      dockerfile: src/AttendanceService/Dockerfile
+    depends_on:
+      - postgres
+    networks:
+      - backend
+    ports:
+      - '7001:80'
+
+  gateway-service:
+    build:
+      context: .
+      dockerfile: src/GatewayService/Dockerfile
+    networks:
+      - backend
+    ports:
+      - '6001:80'
+
+volumes:
+  pgdata:
+
+networks:
+  backend:
+    driver: bridge
