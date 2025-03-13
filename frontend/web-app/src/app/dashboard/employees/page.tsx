@@ -12,7 +12,6 @@ import { getAllEmployees } from '@/lib/actions/employee.actions';
 import { searchParamsCache, serialize } from '@/lib/searchparams';
 import { SearchParams } from 'nuqs/server';
 import EmployeesTableAction from '@/features/employees/table/employees-table-action';
-import { getAllRoles } from '@/lib/actions/role.actions';
 import { getAllDepartments } from '@/lib/actions/department.actions';
 
 export const metadata = {

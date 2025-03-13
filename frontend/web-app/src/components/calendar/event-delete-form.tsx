@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from "sonner";
 import { Button } from '@/components/ui/button';
 import {
   AlertDialog,
@@ -25,18 +25,11 @@ export function EventDeleteForm({ id, title }: EventDeleteFormProps) {
   const { deleteEvent } = useEvents();
   const { eventDeleteOpen, setEventDeleteOpen, setEventViewOpen } = useEvents();
 
-  const { toast } = useToast();
-
   async function onSubmit() {
     deleteEvent(id!);
     setEventDeleteOpen(false);
     setEventViewOpen(false);
-    toast({
-      title: 'Event deleted!'
-      // action: (
-      //   <ToastAction altText={"Dismiss notification."}>Dismiss</ToastAction>
-      // ),
-    });
+    toast('Event deleted!');
   }
 
   return (

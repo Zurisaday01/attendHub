@@ -5,12 +5,13 @@ EXPOSE 80
 
 # Copy solution and project files
 COPY attendhub.sln attendhub.sln
-COPY src/AttendanceService/AttendanceService.csproj src/AttendanceService/AttendanceService.csproj
 COPY src/EmployeeService/EmployeeService.csproj src/EmployeeService/EmployeeService.csproj
+COPY src/AttendanceService/AttendanceService.csproj src/AttendanceService/AttendanceService.csproj
+COPY src/IdentityService/IdentityService.csproj src/IdentityService/IdentityService.csproj
 COPY src/GatewayService/GatewayService.csproj src/GatewayService/GatewayService.csproj
 
 # Restore package dependencies for the solution
-RUN dotnet restore attendHub.sln
+RUN dotnet restore attendhub.sln
 
 # Copy the app folders over
 COPY src/GatewayService src/GatewayService

@@ -1,0 +1,3 @@
+CREATE DATABASE "EmployeeDb";
+CREATE DATABASE "AttendanceDb";
+CREATE DATABASE "IdentityDb";

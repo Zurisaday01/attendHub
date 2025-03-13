@@ -23,14 +23,13 @@ export default async function OverViewLayout({
 }) {
   const departments = await getAllDepartments();
   const employees = await getAllEmployees();
+  const attendances = await getAllAttendances();
 
-  const activeEmployees = employees.filter(
+  const activeEmployees = employees?.filter(
     (employee) => employee.status === 'Active'
   );
 
-  const attendances = await getAllAttendances();
-
-  const todayAttendances = attendances.filter(
+  const todayAttendances = attendances?.filter(
     (attendance) =>
       formattedDate(new Date(attendance.date)) === formattedDate(new Date())
   );
@@ -63,7 +62,7 @@ export default async function OverViewLayout({
               <Users className='w-5 text-foreground' />
             </CardHeader>
             <CardContent>
-              <div className='text-2xl font-bold'>{employees.length}</div>
+              <div className='text-2xl font-bold'>{activeEmployees.length}</div>
             </CardContent>
           </Card>
 
@@ -75,7 +74,7 @@ export default async function OverViewLayout({
               <Activity className='w-5 text-foreground' />
             </CardHeader>
             <CardContent>
-              <div className='text-2xl font-bold'>{activeEmployees.length}</div>
+              <div className='text-2xl font-bold'>{employees.length}</div>
             </CardContent>
           </Card>
           <Card>

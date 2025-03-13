@@ -31,7 +31,6 @@ export default async function AttendancePage(props: pageProps) {
   // This key is used for invoke suspense if any of the search params changed (used for filters).
   const key = serialize({ ...searchParams });
 
-  console.log('searchParams', searchParams);
   const attendances = await getAllAttendances(
     (searchParams?.startDate as string) ?? null,
     (searchParams?.endDate as string) ?? null

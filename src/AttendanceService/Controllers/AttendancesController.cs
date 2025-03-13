@@ -8,7 +8,7 @@ using AttendanceService.Services;
 
 namespace AttendanceService.Controllers
 {
-    [ApiController]
+    // [ApiController]
     [Route("api/attendances")]
     public class AttendancesController(IAttendanceRepository repo, IMapper mapper, EmployeeSvcHttpClient employeeSvcHttpClient) : ControllerBase
     {
@@ -42,7 +42,7 @@ namespace AttendanceService.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<Attendance>> CreateAttendance(AttendanceCreateDto newAttendanceDto)
+        public async Task<ActionResult<Attendance>> CreateAttendance([FromBody] AttendanceCreateDto newAttendanceDto)
         {
             try
             {

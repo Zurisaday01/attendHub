@@ -4,17 +4,10 @@ services:
     ports:
       - '5432:5432'
     environment:
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: kazi
     volumes:
-      - pgdata:/var/lib/postgresql/data
-    networks:
-      - backend
-
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    ports:
-      - '5672:5672'
-      - '15672:15672'
+      - ./backups:/docker-entrypoint-initdb.d
     networks:
       - backend
 
@@ -22,6 +15,10 @@ services:
     build:
       context: .
       dockerfile: src/EmployeeService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=postgres; User Id=postgres; Password=kazi; Database=EmployeeDb
     depends_on:
       - postgres
     networks:
@@ -34,6 +31,12 @@ services:
     build:
       context: .
       dockerfile: src/AttendanceService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=postgres; User Id=postgres; Password=kazi; Database=AttendanceDb
+      - EmployeeServiceUrl=http://employee-service
+      - IdentityServiceUrl=http://identity-svc
     depends_on:
       - postgres
     networks:
@@ -41,18 +44,73 @@ services:
     ports:
       - '7001:80'
 
+  identity-svc:
+    build:
+      context: .
+      dockerfile: src/IdentityService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_URLS=http://+:80
+      - IssuerUri=https://id.attendhub.local
+      - ClientApp=https://app.attendhub.local
+      - ConnectionStrings__DefaultConnection=Server=postgres; User Id=postgres; Password=kazi; Database=IdentityDb
+      - VIRTUAL_HOST=id.attendhub.local
+    depends_on:
+      - postgres
+    networks:
+      - backend
+    ports:
+      - '5001:80'
+
   gateway-service:
     build:
       context: .
       dockerfile: src/GatewayService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_URLS=http://+:80
+      - ClientApp=https://app.attendhub.local
+      - IdentityServiceUrl=http://identity-svc
+      - VIRTUAL_HOST=api.attendhub.local
+
     networks:
       - backend
     ports:
       - '6001:80'
 
-volumes:
-  pgdata:
-
+  web-app:
+    build:
+      context: .
+      dockerfile: frontend/web-app/Dockerfile
+    networks:
+      - backend
+    volumes:
+      - /var/lib/web/data
+    environment:
+      - NEXTAUTH_SECRET="xKRgtNnFysezTPGcZqnoaXXYViLgjucY+r9motJUjgo="
+      - AUTH_URL=https://app.attendhub.local
+      - AUTH_TRUST_HOST=https://app.attendhub.local
+      - AUTH_URL_INTERNAL=http://web-app:3000
+      - API_URL=http://gateway-service/ # Gateway exposed to host
+      - ID_URL=https://id.attendhub.local # Identity Service exposed to host
+      - ID_URL_INTERNAL=http://identity-svc # Still used internally by other services
+      - VIRTUAL_HOST=app.attendhub.local
+      - VIRTUAL_PORT=3000
+    ports:
+      - '3000:3000'
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    container_name: nginx-proxy
+    networks:
+      - backend
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./devcerts:/etc/nginx/certs
+    environment:
+      - DEFAULT_HOST=app.attendhub.local
 networks:
   backend:
     driver: bridge

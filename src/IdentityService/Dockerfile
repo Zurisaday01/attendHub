@@ -3,21 +3,22 @@ FROM mcr.microsoft.com/dotnet/nightly/sdk:9.0-alpine-aot AS build
 WORKDIR /app
 EXPOSE 80
 
-# Copy solution and project files
+# copy all .csproj files and restore as distinct layers.  Use the same COPY
+# for every dockerfile in the project to take advantage of Docker caching
 COPY attendhub.sln attendhub.sln
 COPY src/EmployeeService/EmployeeService.csproj src/EmployeeService/EmployeeService.csproj
 COPY src/AttendanceService/AttendanceService.csproj src/AttendanceService/AttendanceService.csproj
 COPY src/IdentityService/IdentityService.csproj src/IdentityService/IdentityService.csproj
 COPY src/GatewayService/GatewayService.csproj src/GatewayService/GatewayService.csproj
 
-# Restore package dependencies for the solution
+# Restore package deps
 RUN dotnet restore attendhub.sln
 
 # Copy the app folders over
-COPY src/AttendanceService src/AttendanceService
+COPY src/IdentityService src/IdentityService
 
 # Publish the application in Release mode
-WORKDIR /app/src/AttendanceService
+WORKDIR /app/src/IdentityService
 RUN dotnet publish -c Release -o /app/src/out
 
 # Use the .NET runtime image to run the app
@@ -28,4 +29,4 @@ WORKDIR /app
 COPY --from=build /app/src/out .
 
 # Set the entry point to run the application
-ENTRYPOINT ["dotnet", "AttendanceService.dll"]
+ENTRYPOINT ["dotnet", "IdentityService.dll"]

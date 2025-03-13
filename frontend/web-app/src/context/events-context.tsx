@@ -1,6 +1,6 @@
 'use client';
 import { getAllAttendances } from '@/lib/actions/attendance.actions';
-import { CalendarEvent, initialEvents } from '@/lib/data';
+import { CalendarEvent } from '@/lib/data';
 import React, {
   createContext,
   ReactNode,

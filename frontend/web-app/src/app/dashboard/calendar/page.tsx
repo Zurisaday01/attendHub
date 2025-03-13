@@ -1,6 +1,5 @@
 import Calendar from '@/components/calendar/calendar';
 import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { EventsProvider } from '@/context/events-context';
 
 export default function CalendarPage() {

@@ -4,6 +4,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { CellAction } from './cell-action';
 import { Attendance } from 'types';
 import { formattedDate } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 
 export const columns: ColumnDef<Attendance>[] = [
   {
@@ -35,7 +36,10 @@ export const columns: ColumnDef<Attendance>[] = [
   },
   {
     accessorKey: 'status',
-    header: 'Status'
+    header: 'Status',
+    cell: ({ row }) => {
+      return <Badge>{row.original.status}</Badge>;
+    }
   },
 
   {

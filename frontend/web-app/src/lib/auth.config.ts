@@ -3,6 +3,7 @@ import { OIDCConfig } from 'next-auth/providers';
 import DuendeIDS6Provider from 'next-auth/providers/duende-identity-server6';
 
 const authConfig = {
+  trustHost: true,
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: 'jwt'
@@ -28,12 +29,14 @@ const authConfig = {
   ],
   callbacks: {
     async redirect({ url, baseUrl }) {
+ 
       return url.startsWith(baseUrl) ? url : baseUrl;
     },
     async authorized({ auth }) {
       return !!auth;
     },
     async jwt({ token, profile, account }) {
+    
       if (account && account.access_token) {
         token.accessToken = account.access_token;
       }

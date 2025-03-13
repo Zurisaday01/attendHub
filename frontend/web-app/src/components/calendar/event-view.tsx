@@ -6,11 +6,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { CalendarEvent } from "@/utils/data";
+
 import { EventDeleteForm } from "./event-delete-form";
 import { EventEditForm } from "./event-edit-form";
 import { useEvents } from "@/context/events-context";
 import { X } from "lucide-react";
+import { CalendarEvent } from "@/lib/data";
 
 interface EventViewProps {
   event?: CalendarEvent;
@@ -34,10 +35,6 @@ export function EventView({ event }: EventViewProps) {
               <tr>
                 <th>Time:</th>
                 <td>{`${event?.start.toLocaleTimeString()} - ${event?.end.toLocaleTimeString()}`}</td>
-              </tr>
-              <tr>
-                <th>Description:</th>
-                <td>{event?.description}</td>
               </tr>
               <tr>
                 <th>Color:</th>

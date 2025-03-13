@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import { Button, buttonVariants } from '@/components/ui/button';
 import {
   Form,
@@ -112,8 +112,6 @@ export function AddAttendancesForm({ start, end }: EventAddFormProps) {
   const { events, addEvent } = useEvents();
   const { eventAddOpen, setEventAddOpen } = useEvents();
 
-  const { toast } = useToast();
-
   const form = useForm<z.infer<typeof attendanceAddFormSchema>>({
     resolver: zodResolver(attendanceAddFormSchema),
     defaultValues: {
@@ -156,16 +154,10 @@ export function AddAttendancesForm({ start, end }: EventAddFormProps) {
       };
       addEvent(newEvent);
       setEventAddOpen(false);
-      toast({
-        title: 'Attendances added!'
-      });
+      toast('Attendances added!');
     } catch (error) {
       console.error('Error creating attendances:', error);
-      toast({
-        title: 'Failed to add attendances',
-        description: (error as Error).message,
-        variant: 'destructive'
-      });
+      toast.error('Failed to add attendances');
     }
   }
   const [employees, setEmployees] = React.useState<Employee[]>([]);

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EmployeeService.Controllers
 {
-    [Authorize]
+    // [Authorize]
     [ApiController]
     [Route("api/departments")]
     public class DepartmentsController(IDepartmentRepository repo, IMapper mapper) : ControllerBase

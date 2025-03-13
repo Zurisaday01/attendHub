@@ -4,12 +4,13 @@ using EmployeeService.Models;
 using EmployeeService.Data;
 using EmployeeService.DTOs;
 using Microsoft.AspNetCore.Authorization;
+using System.Text.Json;
 
 
 namespace EmployeeService.Controllers
 {
     // [Authorize]
-    [ApiController]
+    // [ApiController]
     [Route("api/employees")]
     public class EmployeesController(IEmployeeRepository repo, IMapper mapper) : ControllerBase
     {
@@ -37,10 +38,12 @@ namespace EmployeeService.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<EmployeeResponseDto>> CreateEmployee(EmployeeCreateDto newEmployeeDto)
+        public async Task<ActionResult<EmployeeResponseDto>> CreateEmployee([FromBody] EmployeeCreateDto newEmployeeDto)
         {
             try
             {
+
+                Console.WriteLine($"Received: {JsonSerializer.Serialize(newEmployeeDto)}");
                 // map the EmployeeCreateDto to Employee
                 var employee = _mapper.Map<Employee>(newEmployeeDto);
 

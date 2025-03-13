@@ -8,7 +8,11 @@ async function get(url: string) {
     headers: await getHeaders()
   };
 
+  console.log('baseUrl', baseUrl);
+
   const response = await fetch(baseUrl + url, requestOptions);
+
+  console.log('response', response);
 
   return handleResponse(response);
 }
@@ -62,6 +66,8 @@ async function del(url: string) {
 
 async function getHeaders() {
   const session = await auth();
+
+  console.log('session', session);
   const headers = {
     'Content-type': 'application/json'
   } as any;

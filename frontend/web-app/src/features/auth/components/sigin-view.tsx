@@ -19,7 +19,6 @@ export default function SignInViewPage({
 }: {
   session: Session | null;
 }) {
-  console.log(session);
   return (
     <section className='flex h-screen w-full items-center bg-gradient-to-r from-gray-100 to-accent'>
       <div className='mx-auto grid place-items-center gap-8 py-20 md:py-32 lg:max-w-screen-xl'>
@@ -57,7 +56,7 @@ export default function SignInViewPage({
               className='w-5/6 font-bold md:w-1/4'
             >
               <Link
-                href='https://github.com/nobruf/shadcn-landing-page.git'
+                href='https://github.com/Zurisaday01/attendHub'
                 target='_blank'
               >
                 Github respository

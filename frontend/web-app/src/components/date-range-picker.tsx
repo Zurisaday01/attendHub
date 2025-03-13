@@ -6,7 +6,8 @@ import React, {
   useState,
   useEffect,
   useRef,
-  useCallback
+  useCallback,
+  JSX
 } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -15,8 +16,6 @@ import {
   PopoverTrigger
 } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { DateInput } from '@/components/date-input';
-import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -24,7 +23,6 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
 import {
   ChevronUpIcon,
   ChevronDownIcon,
@@ -154,8 +152,8 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
   }, [range, searchParams, pathname]);
 
   // Refs to store the values of range and rangeCompare when the date picker is opened
-  const openedRangeRef = useRef<DateRange | undefined>();
-  const openedRangeCompareRef = useRef<DateRange | undefined>();
+  const openedRangeRef = useRef<DateRange | undefined>(undefined);
+  const openedRangeCompareRef = useRef<DateRange | undefined>(undefined);
 
   const [selectedPreset, setSelectedPreset] = useState<string | undefined>(
     undefined
@@ -246,9 +244,9 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
     if (rangeCompare) {
       const rangeCompare = {
         from: new Date(
-          range.from.getFullYear() - 1,
-          range.from.getMonth(),
-          range.from.getDate()
+          range?.from ? range.from.getFullYear() - 1 : new Date().getFullYear() - 1,
+          range?.from?.getMonth() ?? 0,
+          range?.from?.getDate()
         ),
         to: range.to
           ? new Date(
@@ -266,11 +264,11 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
     for (const preset of PRESETS) {
       const presetRange = getPresetRange(preset.name);
 
-      const normalizedRangeFrom = new Date(range.from);
+      const normalizedRangeFrom = range?.from ? new Date(range.from) : new Date();
       normalizedRangeFrom.setHours(0, 0, 0, 0);
-      const normalizedPresetFrom = new Date(
-        presetRange.from.setHours(0, 0, 0, 0)
-      );
+      const normalizedPresetFrom = presetRange.from
+        ? new Date(presetRange.from.setHours(0, 0, 0, 0))
+        : new Date();
 
       const normalizedRangeTo = new Date(range.to ?? 0);
       normalizedRangeTo.setHours(0, 0, 0, 0);
@@ -361,7 +359,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
   const areRangesEqual = (a?: DateRange, b?: DateRange): boolean => {
     if (!a || !b) return a === b; // If either is undefined, return true if both are undefined
     return (
-      a.from.getTime() === b.from.getTime() &&
+      a.from?.getTime() === b.from?.getTime() &&
       (!a.to || !b.to || a.to.getTime() === b.to.getTime())
     );
   };
@@ -391,16 +389,16 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
               {!range.from && !range.to ? (
                 'Select date range'
               ) : (
-                <div>{`${formatDate(range.from, locale)}${
-                  range.to != null ? ' - ' + formatDate(range.to, locale) : ''
+                <div>{`${range.from ? formatDate(range.from, locale) : ''}${
+                  range.to ? ' - ' + formatDate(range.to, locale) : ''
                 }`}</div>
               )}
             </div>
             {rangeCompare != null && (
               <div className='-mt-1 text-xs opacity-60'>
                 <>
-                  vs. {formatDate(rangeCompare.from, locale)}
-                  {rangeCompare.to != null
+                  vs. {rangeCompare.from ? formatDate(rangeCompare.from, locale) : ''}
+                  {rangeCompare.to
                     ? ` - ${formatDate(rangeCompare.to, locale)}`
                     : ''}
                 </>

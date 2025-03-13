@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import {
   Form,
   FormControl,
@@ -77,8 +77,6 @@ export function EventEditForm({
   const { addEvent, deleteEvent } = useEvents();
   const { eventEditOpen, setEventEditOpen } = useEvents();
 
-  const { toast } = useToast();
-
   const form = useForm<z.infer<typeof eventEditFormSchema>>({
     resolver: zodResolver(eventEditFormSchema)
   });
@@ -88,7 +86,6 @@ export function EventEditForm({
       const resetEvent = {
         id: oldEvent.id,
         title: oldEvent.title,
-        description: oldEvent.description,
         start: oldEvent.start,
         end: oldEvent.end,
         color: oldEvent.backgroundColor!
@@ -104,7 +101,6 @@ export function EventEditForm({
     form.reset({
       id: event?.id,
       title: event?.title,
-      description: event?.description,
       start: event?.start as Date,
       end: event?.end as Date,
       color: event?.backgroundColor
@@ -124,15 +120,7 @@ export function EventEditForm({
     addEvent(newEvent);
     setEventEditOpen(false);
 
-    toast({
-      title: 'Event edited!',
-      action: (
-        <></>
-        // <ToastAction altText={"Click here to dismiss notification"}>
-        //   Dismiss
-        // </ToastAction>
-      )
-    });
+    toast('Event edited!');
   }
 
   return (
