@@ -1,14 +1,7 @@
 pipeline {
-    agent {
-        docker {
-            image 'jenkins/jenkins:lts'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
+    agent any
 
     environment {
-        // Reference the Docker registry credentials stored in Jenkins
-        DOCKER_CREDENTIALS = credentials('3656edb9-541f-480f-a4f1-876a86b3c969') 
         IMAGE_NAME = 'zury266/attendhub'
     }
 
@@ -40,10 +33,11 @@ pipeline {
         stage('Push Docker Images') {
             steps {
                 script {
-                    // Log in to Docker Hub using the credentials stored in Jenkins
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS) {
-                        // Push the production image (e.g., web app)
-                        sh 'docker compose push web-app'
+                    withCredentials([usernamePassword(credentialsId: '3656edb9-541f-480f-a4f1-876a86b3c969', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        docker.withRegistry('https://index.docker.io/v1/', DOCKER_USERNAME) {
+                            // Push the production image (e.g., web app)
+                            sh 'docker compose push web-app'
+                        }
                     }
                 }
             }
