@@ -1,14 +1,11 @@
 import { Metadata } from 'next';
 import SignInViewPage from '@/features/auth/components/sigin-view';
-import { auth } from '@/lib/auth';
 
 export const metadata: Metadata = {
-  title: 'Authentication | Sign In',
-  description: 'Sign In page for authentication.'
+  title: 'Welcome to AttendHub',
+  description: 'Welcome to AttendHub, the best attendance management system.'
 };
 
-export default async function Page() {
-  const session = await auth();
-
-  return <SignInViewPage session={session} />;
+export default async function WelcomePage() {
+  return <SignInViewPage />;
 }

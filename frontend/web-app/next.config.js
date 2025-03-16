@@ -15,7 +15,7 @@ const nextConfig = {
     ]
   },
   transpilePackages: ['geist'],
-  output: 'standalone'
+  output: 'standalone',
 };
 
 module.exports = nextConfig;

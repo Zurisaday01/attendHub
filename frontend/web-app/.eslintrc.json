@@ -1,9 +1,11 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": ["next/core-web-vitals", "react-app/jest"],
   "plugins": ["@typescript-eslint"],
   "rules": {
     "@typescript-eslint/no-unused-vars": ["warn", { "args": "none" }],
     "import/no-unresolved": "error",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-react": "off",
     "import/named": "off",
     "no-console": "warn"
   },

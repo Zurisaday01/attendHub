@@ -7,7 +7,7 @@ interface AttendanceListingPage {
   totalItems: number;
 }
 
-export default async function AttendanceListing({
+export default function AttendanceListing({
   data,
   totalItems
 }: AttendanceListingPage) {

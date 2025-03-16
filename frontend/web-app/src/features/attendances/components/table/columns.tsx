@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 export const columns: ColumnDef<Attendance>[] = [
   {
     accessorKey: 'date',
-    header: 'DATE',
+    header: 'Date',
     cell: ({ row }) => {
       return formattedDate(new Date(row.original.date));
     }

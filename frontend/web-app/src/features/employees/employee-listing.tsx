@@ -2,7 +2,7 @@
 import { DataTable as EmployeeTable } from '@/components/ui/table/data-table';
 import { columns } from './table/columns';
 import { Employee } from 'types';
-import { useEmployeeTableFilters } from './table/use-employee-table-filters';
+import { useEmployeeTableFilters } from '@/features/employees/table/use-employee-table-filters';
 
 interface EmployeeListingPage {
   data: Employee[];
@@ -20,6 +20,7 @@ export default function EmployeeListing({
   const filteredData = data.filter((employee) => {
     return departments.includes(employee.department.id);
   });
+
 
   return (
     <EmployeeTable
