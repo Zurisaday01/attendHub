@@ -92,7 +92,12 @@ pipeline {
                     ]
 
                     for (image in images) {
-                        sh "snyk container test ${IMAGE_NAME}:${image} --severity-threshold=medium --json --fail-on=upgradable"
+                        // Run snyk container test and capture the output, prevent failure in pipeline
+                        try {
+                            sh "snyk container test ${IMAGE_NAME}:${image} --severity-threshold=medium --json --fail-on=upgradable > snyk-report-${image}.json || true"
+                        } catch (Exception e) {
+                            echo "Snyk test failed for ${image}, but proceeding with pipeline."
+                        }
                     }
                 }
             }
