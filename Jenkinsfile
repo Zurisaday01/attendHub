@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'zury266/attendhub'
+        SNYK_TOKEN = credentials('SNYK_TOKEN')
     }
 
     stages {
@@ -43,6 +44,42 @@ pipeline {
                         docker-compose up -d
 
                     '''
+                }
+            }
+        }
+
+        stage('Install Snyk') {
+            steps {
+                script {
+                    sh '''
+                    if ! command -v snyk &> /dev/null; then
+                        echo "Snyk not found, installing..."
+                        npm install snyk -g
+                        snyk --version
+                    else
+                        echo "Snyk is already installed"
+                        snyk --version
+                    fi
+                    '''
+                }
+            }
+        }
+
+        stage('Snyk Container Test') {
+            steps {
+                script {
+                    def images = [
+                        'employee-service-latest',
+                        'attendance-service-latest',
+                        'identity-svc-latest',
+                        'web-app-latest',
+                        'gateway-service-latest',
+                        'test-latest'
+                    ]
+
+                    for (image in images) {
+                        sh "snyk container test ${IMAGE_NAME}:${image} --severity-threshold=medium --json --fail-on=upgradable"
+                    }
                 }
             }
         }
