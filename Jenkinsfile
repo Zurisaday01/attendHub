@@ -39,7 +39,11 @@ pipeline {
             steps {
                 script {
                     // Build the necessary images (e.g., web app)
-                    sh 'docker-compose up -d --force-recreate'
+                    sh '''
+                        docker-compose down -v --remove-orphans
+                        docker-compose up -d --force-recreate
+
+                    '''
                 }
             }
         }
