@@ -52,8 +52,12 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: '3656edb9-541f-480f-a4f1-876a86b3c969', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         docker.withRegistry('https://index.docker.io/v1/', DOCKER_USERNAME) {
-                            // Push the production image (e.g., web app)
-                            sh 'docker compose push web-app'
+                            sh 'docker push zury266/attendhub:employee-service-latest'
+                            sh 'docker push zury266/attendhub:attendance-service-latest'
+                            sh 'docker push zury266/attendhub:identity-svc-latest'
+                            sh 'docker push zury266/attendhub:web-app-latest'
+                            sh 'docker push zury266/attendhub:gateway-service-latest'
+                            sh 'docker push zury266/attendhub:test-latest'
                         }
                     }
                 }

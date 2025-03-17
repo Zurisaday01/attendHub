@@ -23,17 +23,9 @@ services:
       - ./backups:/docker-entrypoint-initdb.d
     networks:
       - backend
-  test:
-    build:
-      context: .
-      dockerfile: frontend/web-app/Dockerfile # Or another relevant Dockerfile for backend tests
-    command: npm run test # Running your Jest tests
-    depends_on:
-      - postgres # Ensure the database is up before testing
-    networks:
-      - backend
 
   employee-service:
+    image: zury266/attendhub:employee-service-latest
     build:
       context: .
       dockerfile: src/EmployeeService/Dockerfile
@@ -50,6 +42,7 @@ services:
       - '7777:7777'
 
   attendance-service:
+    image: zury266/attendhub:attendance-service-latest
     build:
       context: .
       dockerfile: src/AttendanceService/Dockerfile
@@ -67,6 +60,7 @@ services:
       - '7001:80'
 
   identity-svc:
+    image: zury266/attendhub:identity-service-latest
     build:
       context: .
       dockerfile: src/IdentityService/Dockerfile
@@ -85,6 +79,7 @@ services:
       - '5001:80'
 
   gateway-service:
+    image: zury266/attendhub:gateway-service-latest
     build:
       context: .
       dockerfile: src/GatewayService/Dockerfile
@@ -101,6 +96,7 @@ services:
       - '6001:80'
 
   web-app:
+    image: zury266/attendhub:web-app-latest
     build:
       context: .
       dockerfile: frontend/web-app/Dockerfile
@@ -120,6 +116,17 @@ services:
       - VIRTUAL_PORT=3000
     ports:
       - '3000:3000'
+  test:
+    build:
+      context: .
+      dockerfile: frontend/web-app/Dockerfile
+    command: npm run test # Run your tests here
+    depends_on:
+      - postgres
+    networks:
+      - backend
+    environment:
+      - NODE_ENV=test # Set test environment if needed
   nginx-proxy:
     image: nginxproxy/nginx-proxy
     container_name: nginx-proxy
