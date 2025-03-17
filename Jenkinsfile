@@ -23,9 +23,11 @@ pipeline {
                         apt-get install -y apt-utils
                         apt-get install -y docker.io
                         docker --version
+                        docker compose version
                     else
                         echo "Docker is already installed"
                         docker --version
+                        docker compose version
                     fi
                     '''
                 }
