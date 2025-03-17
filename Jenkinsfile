@@ -40,6 +40,7 @@ pipeline {
                 script {
                     // Build the necessary images (e.g., web app)
                     sh '''
+                        docker rm -f $(docker ps -a -q) || true
                         docker-compose down -v --remove-orphans
                         docker-compose up -d --force-recreate
 
