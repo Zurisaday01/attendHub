@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/Zurisaday01/attendHub'
+                git branch: 'main', url: 'https://github.com/Zurisaday01/attendHub'
             }
         }
 
