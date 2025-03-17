@@ -34,7 +34,7 @@ pipeline {
             steps {
                 script {
                     // Build the necessary images (e.g., web app)
-                    sh 'docker compose -f docker-compose.yml build'
+                    sh 'docker compose up --build'
                 }
             }
         }
