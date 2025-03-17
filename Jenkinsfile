@@ -12,6 +12,23 @@ pipeline {
             }
         }
 
+        stage('Install Docker') {
+            steps {
+                script {
+                    // Check if Docker is installed, if not install it
+                    sh '''
+                    if ! command -v docker &> /dev/null; then
+                        echo "Docker not found, installing..."
+                        apt-get update
+                        apt-get install -y docker.io
+                    else
+                        echo "Docker is already installed"
+                    fi
+                    '''
+                }
+            }
+        }
+
         stage('Build Docker Images') {
             steps {
                 script {
