@@ -23,12 +23,12 @@ pipeline {
                         apt-get install -y apt-utils
                         apt-get install -y docker.io
                         docker --version
-                        apt-get install docker-compose-plugin
-                        docker compose version
+                        curl -L https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+                        chmod +x /usr/local/bin/docker-compose
+                        docker-compose --version
                     else
                         echo "Docker is already installed"
                         docker --version
-                        docker compose version
                     fi
                     '''
                 }
@@ -39,7 +39,7 @@ pipeline {
             steps {
                 script {
                     // Build the necessary images (e.g., web app)
-                    sh 'docker compose up -d'
+                    sh 'docker-compose up -d'
                 }
             }
         }
@@ -48,7 +48,7 @@ pipeline {
             steps {
                 script {
                     // Run tests for the web app or backend service as needed
-                    sh 'docker compose run --rm test'
+                    sh 'docker-compose run --rm test'
                 }
             }
         }
