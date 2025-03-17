@@ -23,7 +23,7 @@ pipeline {
                         apt-get install -y apt-utils
                         apt-get install -y docker.io
                         docker --version
-                        sudo apt-get install docker-compose-plugin
+                        apt-get install docker-compose-plugin
                         docker compose version
                     else
                         echo "Docker is already installed"
