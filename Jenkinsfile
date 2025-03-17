@@ -60,7 +60,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: '3656edb9-541f-480f-a4f1-876a86b3c969', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        docker.withRegistry('https://index.docker.io/v1/', DOCKER_USERNAME) {
+                        docker.withRegistry('https://index.docker.io/v1/', '3656edb9-541f-480f-a4f1-876a86b3c969') {
                             sh 'docker push zury266/attendhub:employee-service-latest'
                             sh 'docker push zury266/attendhub:attendance-service-latest'
                             sh 'docker push zury266/attendhub:identity-svc-latest'
@@ -72,6 +72,7 @@ pipeline {
                 }
             }
         }
+
     }
 
     post {
