@@ -28,18 +28,6 @@ pipeline {
                 script {
                     sh '''
                     set -e  # Exit on any error
-                    if ! command -v node &> /dev/null; then
-                        echo "Node.js not found, installing..."
-                        curl -sL https://deb.nodesource.com/setup_20.x | bash -
-                        apt-get install -y nodejs
-                        node -v
-                        npm -v
-                    else
-                        echo "Node.js is already installed"
-                        node -v
-                        npm -v
-                    fi
-
                     if ! command -v snyk &> /dev/null; then
                         echo "Snyk not found, installing..."
                         npm install snyk -g
