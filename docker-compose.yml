@@ -96,9 +96,9 @@ services:
       - AUTH_URL=https://app.attendhub.local
       - AUTH_TRUST_HOST=https://app.attendhub.local
       - AUTH_URL_INTERNAL=http://web-app:3000
-      - API_URL=http://gateway-service/ # Gateway exposed to host
-      - ID_URL=https://id.attendhub.local # Identity Service exposed to host
-      - ID_URL_INTERNAL=http://identity-svc # Still used internally by other services
+      - API_URL=http://gateway-service/
+      - ID_URL=https://id.attendhub.local
+      - ID_URL_INTERNAL=http://identity-svc
       - VIRTUAL_HOST=app.attendhub.local
       - VIRTUAL_PORT=3000
     ports:
@@ -107,13 +107,11 @@ services:
     build:
       context: .
       dockerfile: frontend/web-app/Dockerfile
-    command: npm run test # Run your tests here
+    command: npm run test
     depends_on:
       - postgres
     networks:
       - backend
-    environment:
-      - NODE_ENV=test # Set test environment if needed
   nginx-proxy:
     image: nginxproxy/nginx-proxy
     container_name: nginx-proxy

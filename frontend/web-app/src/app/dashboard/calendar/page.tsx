@@ -12,7 +12,7 @@ export default function CalendarPage() {
               Calendar
             </h2>
             <p className='text-xs font-medium md:text-sm'>
-              A quick way of tracking the attendance of your employees
+              A quick way of seeing all the attendances in one place.
             </p>
           </div>
 

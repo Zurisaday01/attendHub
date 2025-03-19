@@ -7,12 +7,7 @@ async function get(url: string) {
     method: 'GET',
     headers: await getHeaders()
   };
-
-  // console.log('baseUrl', baseUrl);
-
   const response = await fetch(baseUrl + url, requestOptions);
-
-  // console.log('response', response);
 
   return handleResponse(response);
 }

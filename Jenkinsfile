@@ -13,24 +13,14 @@ pipeline {
             }
         }
 
-        stage('Install Docker') {
+        stage('Check Docker Version') {
             steps {
                 script {
                     sh '''
-                    export DEBIAN_FRONTEND=noninteractive
-                    if ! command -v docker &> /dev/null; then
-                        echo "Docker not found, installing..."
-                        apt-get update
-                        apt-get install -y apt-utils
-                        apt-get install -y docker.io
+                   
                         docker --version
-                        curl -L https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-                        chmod +x /usr/local/bin/docker-compose
-                        docker-compose --version
-                    else
-                        echo "Docker is already installed"
-                        docker --version
-                    fi
+                        docker compose --version
+                 
                     '''
                 }
             }
