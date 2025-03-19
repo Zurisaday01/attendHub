@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker compose up -d
+                        docker-compose up -d
                     '''
                 }
             }
@@ -78,7 +78,7 @@ pipeline {
             steps {
                 script {
                     // Run tests for the web app or backend service as needed
-                    sh 'docker compose run --rm test'
+                    sh 'docker-compose run --rm test'
                 }
             }
         }
