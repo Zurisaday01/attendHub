@@ -247,14 +247,6 @@ export default function Calendar() {
           dayCellContent={(dayInfo) => <DayRender info={dayInfo} />}
           eventContent={(eventInfo) => <EventItem info={eventInfo} />}
           dayHeaderContent={(headerInfo) => <DayHeader info={headerInfo} />}
-          eventClick={(eventInfo) => handleEventClick(eventInfo)}
-          eventChange={(eventInfo) => handleEventChange(eventInfo)}
-          select={handleDateSelect}
-          datesSet={(dates) => setViewedDate(dates.view.currentStart)}
-          dateClick={() => setEventAddOpen(true)}
-          nowIndicator
-          editable
-          selectable
         />
       </Card>
       <EventEditForm

@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { toast } from "sonner";
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -156,7 +156,7 @@ export function EventAddForm({ start, end }: EventAddFormProps) {
       toast('Attendances added!');
     } catch (error) {
       console.error('Error creating attendances:', error);
-      toast.error('Failed to add attendances')
+      toast.error('Failed to add attendances');
     }
   }
   const [employees, setEmployees] = React.useState<Employee[]>([]);
