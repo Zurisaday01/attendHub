@@ -92,8 +92,7 @@ You can run this app locally on your computer by following these instructions:
 9. You should now be able to browse to the app on [https://app.attendhub.local](https://app.attendhub.local/)
 
 ## Microservices Structure
-
-![Microservices Structure](image.png)
+![structure](https://github.com/user-attachments/assets/fd4998d4-2d17-4fde-9ace-b2b8654094d2)
 
 ### **Postgres (Database Service)**
 
@@ -205,11 +204,19 @@ This pipeline ensures **code security**, **automated testing**, and **continuous
 
 ## Jenkins Pipeline Execution - Successful Build
 
-[video]
+https://github.com/user-attachments/assets/454d83f9-3e4b-4020-88f3-29f5c7b58e7f
 
 ## AttendHub - How It Works
 
-[video]
+
+
+https://github.com/user-attachments/assets/3ff87e2c-006b-4dbb-9d64-d29b29950ed1
+
+
+https://github.com/user-attachments/assets/a6e8fdc8-43d0-4d6f-aec5-d1f210d92f4b
+
+
+
 
 ---
 
