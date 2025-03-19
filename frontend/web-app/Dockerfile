@@ -47,17 +47,3 @@ EXPOSE 3000
 ENV PORT 3000
 
 CMD ["node", "server.js"]
-
-# Test stage for running Jest
-FROM node:19-alpine AS test
-WORKDIR /app
-
-# Install both production and dev dependencies for testing
-COPY frontend/web-app/package*.json ./
-RUN npm install --legacy-peer-deps  # Installs both prod and dev dependencies (including Jest)
-
-# Copy all the necessary files (could limit to test files if preferred)
-COPY frontend/web-app ./
-
-# Run tests
-CMD ["npm", "run", "test"]

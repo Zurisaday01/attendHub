@@ -6,8 +6,6 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: kazi
-    volumes:
-      - ./backups:/docker-entrypoint-initdb.d
     networks:
       - backend
 
@@ -81,7 +79,6 @@ services:
       - backend
     ports:
       - '6001:80'
-
   web-app:
     image: zury266/attendhub:web-app-latest
     build:
@@ -104,9 +101,10 @@ services:
     ports:
       - '3000:3000'
   test:
+    image: zury266/attendhub:test-latest
     build:
       context: .
-      dockerfile: frontend/web-app/Dockerfile
+      dockerfile: frontend/web-app/Dockerfile.test
     command: npm run test
     depends_on:
       - postgres
