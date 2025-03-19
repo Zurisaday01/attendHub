@@ -13,26 +13,11 @@ pipeline {
             }
         }
 
-        stage('Check Docker Version') {
-            steps {
-                script {
-                    sh '''
-                   
-                        docker --version
-                        docker compose --version
-                 
-                    '''
-                }
-            }
-        }
-
         stage('Build Docker Images') {
             steps {
                 script {
-                    // Build the necessary images (e.g., web app)
                     sh '''
-                        docker-compose up -d
-
+                        docker compose up -d
                     '''
                 }
             }
@@ -69,7 +54,7 @@ pipeline {
         }
 
 
-        stage('Snyk Container Test') {
+        stage('Snyk Security Container Test') {
             steps {
                 script {
                     def images = [
@@ -82,22 +67,18 @@ pipeline {
                     ]
 
                     for (image in images) {
-                        // Run snyk container test and capture the output, prevent failure in pipeline
-                        try {
-                            sh "snyk container test ${IMAGE_NAME}:${image} --severity-threshold=medium --json --fail-on=upgradable > snyk-report-${image}.json || true"
-                        } catch (Exception e) {
-                            echo "Snyk test failed for ${image}, but proceeding with pipeline."
-                        }
+                        // Run snyk container test and capture the output
+                        sh "snyk container test ${IMAGE_NAME}:${image} --severity-threshold=medium --json --fail-on=upgradable > snyk-report-${image}.json || true"
                     }
                 }
             }
         }
 
-        stage('Run Tests') {
+        stage('Run Unit Tests') {
             steps {
                 script {
                     // Run tests for the web app or backend service as needed
-                    sh 'docker-compose run --rm test'
+                    sh 'docker compose run --rm test'
                 }
             }
         }
